@@ -1,4 +1,16 @@
-data/ml-20m/
-data/msd/
-data/ml-20m/
-data/msd/
+__pycache__/
+*.pyc
+
+# old scripts kept locally only
+unused/
+
+# training outputs
+checkpoints/
+
+# extracted data (only the zip archives in data/ are tracked)
+data/ml-20m.zip
+data/msd.zip
+data/*/*.json
+data/*/*.npy
+data/*/*.txt
+data/*/gram.pt
