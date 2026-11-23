@@ -34,7 +34,7 @@ unzip ml-20m/ml20m_interventions.zip -d ml-20m
 ```
 
 `ml20m_interventions.zip` holds the LLM-edited summaries of the 5,000 ML-20M
-validation users used in the controllability experiments: genre removal
+users used in the controllability experiments: genre removal
 (`leave_one_out_interventions.json`), addition (`leave_one_in_interventions.json`),
 addition through unseen items (`leave_one_in_grounded.json`) and negation
 (`leave_one_out_negated.json`).
