@@ -173,7 +173,7 @@ def run_eval(model, loader, device,
 # ============================================================================
 parser = argparse.ArgumentParser()
 
-parser.add_argument("--data-path", type=str, default="easier_v2_vlm_llm")
+parser.add_argument("--data-path", type=str, default="ml-20m")
 parser.add_argument("--encoder-path", type=str, required=True,
                     help="Path to *_mult_vae.pt or *_macrid_vae.pt")
 parser.add_argument("--decoder-path", type=str, required=True)

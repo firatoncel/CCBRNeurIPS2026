@@ -136,13 +136,14 @@ class LatentAlignModel(nn.Module):
         dec_raw = torch.load(decoder_path, weights_only=False, map_location="cpu")
 
         if not isinstance(enc_raw, nn.Linear):
+            # Bare weight tensors from factorize.py, both of shape (n_items, rank)
             enc_weight = enc_raw
             dec_weight = dec_raw
             print(enc_weight.shape, dec_weight.shape)
             self.encoder = nn.Linear(enc_weight.shape[0], enc_weight.shape[1], bias=False)
             self.encoder.weight = nn.Parameter(enc_weight.T)
             self.decoder = nn.Linear(dec_weight.shape[1], dec_weight.shape[0], bias=False)
-            self.decoder.weight = nn.Parameter(dec_weight.T)
+            self.decoder.weight = nn.Parameter(dec_weight)
             latent_dim = enc_weight.shape[1]
         else:
             self.encoder = enc_raw.cpu()

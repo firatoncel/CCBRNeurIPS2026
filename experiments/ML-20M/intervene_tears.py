@@ -434,7 +434,7 @@ if __name__ == "__main__":
 
     if csv_rows:
         csv_exp = os.path.join(
-            args.exp_dir, f"eval_{args.intervention_type}_results.csv")
+            args.exp_dir, f"eval_{args.intervention_type}_tears_results.csv")
         write_csv(csv_rows, csv_exp)
 
         csv_global = os.path.join(
