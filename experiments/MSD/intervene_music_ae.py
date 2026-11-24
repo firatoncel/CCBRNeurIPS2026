@@ -15,11 +15,11 @@ Input JSON structure:
           {added_tag,   added_tag_idx,   edited_summary, ...}, ...]}}
 
 Usage:
-    python intervene_music_ae.py --exp-dir results_music/exp1 \
-        --intervention-type loo --interventions leave_one_out_interventions.json
+    python experiments/MSD/intervene_music_ae.py --exp-dir results_music/<run> \
+        --intervention-type loo --interventions data/msd/leave_one_out_interventions.json
 
-    python intervene_music_ae.py --exp-dir results_music/exp1 \
-        --intervention-type loi --interventions leave_one_in_interventions.json
+    python experiments/MSD/intervene_music_ae.py --exp-dir results_music/<run> \
+        --intervention-type loi --interventions data/msd/leave_one_in_interventions.json
 """
 
 import os
@@ -299,7 +299,7 @@ def append_csv(rows, csv_path):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--exp-dir', type=str, required=True)
-    parser.add_argument('--data-path', type=str, default="msd_corrected")
+    parser.add_argument('--data-path', type=str, default="data/msd")
     parser.add_argument('--device', type=str, default="cuda:0")
     parser.add_argument('--seed', type=int, default=42)
 
@@ -308,7 +308,7 @@ if __name__ == "__main__":
                         help="loo = leave-one-out (removal), loi = leave-one-in (addition)")
     parser.add_argument("--interventions", type=str, required=True,
                         help="Path to LOO/LOI interventions JSON")
-    parser.add_argument("--tag-matrix", type=str, default="msd_corrected/tag_matrix.npy",
+    parser.add_argument("--tag-matrix", type=str, default="data/msd/tag_matrix.npy",
                         help="Path to tag_matrix.npy (n_items x n_tags)")
 
     args = parser.parse_args()

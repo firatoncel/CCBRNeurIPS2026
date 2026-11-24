@@ -113,13 +113,18 @@ class LatentAlignModel(nn.Module):
         print(self.encoder)
         print(self.decoder)
 
+        # Latent size of the CF backbone (output of the last Linear in the
+        # encoder). The mapper projects the 1024-d text embedding to this size,
+        # so it works for any backbone rank, not only 1024.
+        latent_dim = [m for m in self.encoder.modules() if isinstance(m, nn.Linear)][-1].out_features
+
         if nonlinear:
             self.mapper = nn.Sequential(
                 nn.Linear(1024, 1024, bias=False), nn.SiLU(),
-                nn.Linear(1024, 1024, bias=False),
+                nn.Linear(1024, latent_dim, bias=False),
             )
         else:
-            self.mapper = nn.Linear(1024, 1024, bias=False)
+            self.mapper = nn.Linear(1024, latent_dim, bias=False)
 
         self.bias = nn.Parameter(torch.zeros(n_items))
         print(f"LatentAlignModel | tau={self.tau} | use_linear={self.use_linear}")

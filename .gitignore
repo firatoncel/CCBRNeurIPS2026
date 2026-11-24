@@ -4,8 +4,9 @@ __pycache__/
 # old scripts kept locally only
 unused/
 
-# training outputs
+# training outputs (backbones, CCBR/TEARS runs, intervention CSVs)
 checkpoints/
+results*/
 
 # extracted data (only the zip archives in data/ are tracked)
 data/ml-20m.zip
