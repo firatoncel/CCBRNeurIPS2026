@@ -169,3 +169,17 @@ includes it, so this step is optional.
 The code is released under the MIT license (see `LICENSE`). The files in `data/`
 are derived from H&M, MovieLens-20M and the Million Song Dataset and remain
 subject to the original datasets' terms.
+
+## Citation
+
+If you use this code, please cite our paper:
+
+```bibtex
+@inproceedings{oncel2026controllable,
+  title     = {Controllable and Content-Based Recommendations},
+  author    = {{\"O}ncel, F{\i}rat and Jeong, Jihoon and Penaloza, Emiliano and
+               Ravanelli, Mirco and Charlin, Laurent and Subakan, Cem},
+  booktitle = {Advances in Neural Information Processing Systems},
+  year      = {2026}
+}
+```
