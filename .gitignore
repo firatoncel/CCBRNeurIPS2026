@@ -4,6 +4,9 @@ __pycache__/
 # old scripts kept locally only
 unused/
 
+# 72 MB original of the teaser video; the README uses the 7 MB copy in assets/
+/CCBR-NeurIPS2026-teaser.mp4
+
 # training outputs (backbones, CCBR/TEARS runs, intervention CSVs)
 checkpoints/
 results*/

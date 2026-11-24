@@ -3,6 +3,16 @@
 Code for *Controllable and Content-Based Recommendations* (CCBR, NeurIPS 2026) on
 H&M, MovieLens-20M and the Million Song Dataset (MSD).
 
+**Paper:** [arXiv:2607.20938](https://arxiv.org/pdf/2607.20938)
+
+<p align="center">
+  <a href="assets/CCBR-NeurIPS2026-teaser.mp4">
+    <img src="assets/CCBR-NeurIPS2026-teaser.jpg" width="480" alt="CCBR teaser video">
+  </a>
+  <br>
+  <a href="assets/CCBR-NeurIPS2026-teaser.mp4">▶ Watch the teaser video (1:32)</a>
+</p>
+
 | Folder | Contents |
 |---|---|
 | `autoencoder_training/` | collaborative filtering backbones (training, evaluation, tuning) |
