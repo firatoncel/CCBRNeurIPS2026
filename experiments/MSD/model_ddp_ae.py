@@ -117,7 +117,11 @@ class LatentAlignModel(nn.Module):
             else:
                 self.encoder = enc_raw.cpu()
                 self.decoder = dec_raw.cpu()
-                latent_dim = 4096
+                # Read the latent size from the checkpoint instead of assuming
+                # 4096: a backbone saved by autoencoders.py (e.g. edlae_lowrank)
+                # has rank --latent-dim, and a wrong value here gives the mapper
+                # the wrong output size (shape mismatch with z_colab).
+                latent_dim = self.encoder.out_features
 
         self.decoder_text = copy.deepcopy(self.decoder)
         self.use_linear = use_linear

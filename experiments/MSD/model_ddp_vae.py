@@ -147,7 +147,9 @@ class LatentAlignModel(nn.Module):
         else:
             self.encoder = enc_raw.cpu()
             self.decoder = dec_raw.cpu()
-            latent_dim = 1024
+            # Read the latent size from the checkpoint instead of assuming 1024
+            # (same as the HM and ML-20M versions of this file).
+            latent_dim = self.encoder.out_features
 
         print(self.encoder, self.decoder)
         self.decoder_text = copy.deepcopy(self.decoder)

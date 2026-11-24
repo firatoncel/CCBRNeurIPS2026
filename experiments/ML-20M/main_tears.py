@@ -6,8 +6,8 @@ and our text encoder. Loss is 3-branch multinomial reconstruction + KL +
 Bures-Wasserstein OT alignment.
 
 Usage:
-    torchrun --nproc_per_node=4 main_tears.py \
-        --data-path ml-20m \
+    torchrun --nproc_per_node=1 experiments/ML-20M/main_tears.py \
+        --data-path data/ml-20m \
         --encoder-path checkpoints/ml20m/enc_mult_vae.pt \
         --decoder-path checkpoints/ml20m/dec_mult_vae.pt \
         --epsilon 1.0 --max-anneal-steps 10000 --min-anneal 0.5
@@ -31,7 +31,7 @@ from model_tears import TearsAlignModel, TearsOTLoss
 
 
 from utils import (
-    set_seed, read_data, MSDDataset, MSDDatasetVal,
+    set_seed, read_data, ML20MDataset, ML20MDatasetVal,
     collate_fn, collate_fn_val,
     recall_ndcg_multi_k_full,
 )
@@ -173,7 +173,7 @@ def run_eval(model, loader, device,
 # ============================================================================
 parser = argparse.ArgumentParser()
 
-parser.add_argument("--data-path", type=str, default="ml-20m")
+parser.add_argument("--data-path", type=str, default="data/ml-20m")
 parser.add_argument("--encoder-path", type=str, required=True,
                     help="Path to *_mult_vae.pt or *_macrid_vae.pt")
 parser.add_argument("--decoder-path", type=str, required=True)
@@ -242,18 +242,18 @@ def main():
     # --- Data ---
     data = read_data(config.data_path)
 
-    dataset_tr = MSDDataset(data["X_tr"], data["S_tr"], data["n_items"])
+    dataset_tr = ML20MDataset(data["X_tr"], data["S_tr"], data["n_items"])
     train_sampler = DistributedSampler(dataset_tr, num_replicas=world_size,
                                         rank=dist.get_rank(), shuffle=True)
     loader_tr = DataLoader(dataset_tr, batch_size=config.batch_size, sampler=train_sampler,
                            num_workers=config.num_workers, collate_fn=collate_fn,
                            pin_memory=True, drop_last=True)
 
-    dataset_val = MSDDatasetVal(data["X_val"], data["S_val"], data["n_items"], data["Y_val"])
+    dataset_val = ML20MDatasetVal(data["X_val"], data["S_val"], data["n_items"], data["Y_val"])
     loader_val = DataLoader(dataset_val, batch_size=100, shuffle=False,
                             num_workers=config.num_workers, collate_fn=collate_fn_val)
 
-    dataset_test = MSDDatasetVal(data["X_test"], data["S_test"], data["n_items"], data["Y_test"])
+    dataset_test = ML20MDatasetVal(data["X_test"], data["S_test"], data["n_items"], data["Y_test"])
     loader_test = DataLoader(dataset_test, batch_size=100, shuffle=False,
                              num_workers=config.num_workers, collate_fn=collate_fn_val)
 

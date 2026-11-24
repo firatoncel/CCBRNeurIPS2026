@@ -6,8 +6,8 @@ and our text encoder. Loss is 3-branch multinomial reconstruction + KL +
 Bures-Wasserstein OT alignment.
 
 Usage:
-    torchrun --nproc_per_node=4 main_tears.py \
-        --data-path hm \
+    torchrun --nproc_per_node=1 experiments/HM/main_tears.py \
+        --data-path data/hm \
         --encoder-path checkpoints/hm/enc_mult_vae.pt \
         --decoder-path checkpoints/hm/dec_mult_vae.pt \
         --epsilon 1.0 --max-anneal-steps 10000 --min-anneal 0.5
@@ -173,7 +173,7 @@ def run_eval(model, loader, device,
 # ============================================================================
 parser = argparse.ArgumentParser()
 
-parser.add_argument("--data-path", type=str, default="easier_v2_vlm_llm")
+parser.add_argument("--data-path", type=str, default="data/hm")
 parser.add_argument("--encoder-path", type=str, required=True,
                     help="Path to *_mult_vae.pt or *_macrid_vae.pt")
 parser.add_argument("--decoder-path", type=str, required=True)

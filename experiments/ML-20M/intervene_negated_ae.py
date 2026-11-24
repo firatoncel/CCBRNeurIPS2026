@@ -13,8 +13,8 @@ Input JSON structure (leave_one_out_negated.json):
       {removed_genre, removed_genre_idx, edited_summary, ...}, ...]}}
 
 Usage:
-    python intervene_negated_ae.py --exp-dir results_movie/exp1 \
-        --interventions leave_one_out_negated.json
+    python experiments/ML-20M/intervene_negated_ae.py --exp-dir results_movie/<run> \
+        --interventions data/ml-20m/leave_one_out_negated.json
 """
 
 import os
@@ -255,13 +255,13 @@ def append_csv(rows, csv_path):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--exp-dir', type=str, required=True)
-    parser.add_argument('--data-path', type=str, default="ml-20m")
+    parser.add_argument('--data-path', type=str, default="data/ml-20m")
     parser.add_argument('--device', type=str, default="cuda:0")
     parser.add_argument('--seed', type=int, default=42)
 
-    parser.add_argument("--interventions", type=str, default="leave_one_out_negated.json",
+    parser.add_argument("--interventions", type=str, default="data/ml-20m/leave_one_out_negated.json",
                         help="Path to LOO-Negated interventions JSON")
-    parser.add_argument("--genre-matrix", type=str, default="ml-20m/tag_matrix.npy",
+    parser.add_argument("--genre-matrix", type=str, default="data/ml-20m/tag_matrix.npy",
                         help="Path to tag_matrix.npy (n_items x n_genres)")
 
     args = parser.parse_args()

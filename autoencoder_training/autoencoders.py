@@ -624,6 +624,12 @@ TUNED_PARAM_TO_CONFIG = {
     'batch_size': 'batch_size', 'zero_diag': 'edlae_zero_diag',
 }
 
+# edlae_lowrank and linear have a single latent layer. Their search spaces call
+# its size 'hidden_dim', but the final model reads it from config.latent_dim
+# (see build_analytic_model and build_model), so the tuned value goes there.
+# Without this, e.g. MSD tunes EDLAE (LR) at rank 4096 and retrains at 1024.
+SINGLE_LAYER_MODELS = {'edlae_lowrank', 'linear'}
+
 
 def suggest_analytic_model(trial, config, space):
     t = config.model_type
@@ -733,6 +739,8 @@ def tune(config, data):
     print(f"{'=' * 60}\n")
     for name, value in study.best_params.items():
         attr = TUNED_PARAM_TO_CONFIG.get(name, name.replace('-', '_'))
+        if name == 'hidden_dim' and config.model_type in SINGLE_LAYER_MODELS:
+            attr = 'latent_dim'
         if hasattr(config, attr):
             setattr(config, attr, value)
             print(f"  config.{attr} = {value}")

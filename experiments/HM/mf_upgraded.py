@@ -1,3 +1,14 @@
+"""BPR matrix factorisation that produces the item embeddings used by CCBR (H&M).
+
+Writes item_embeddings_constrained.npy (and mf_training_history.json) to
+--output-dir, which defaults to --data-path. The preprocessed data already
+ships these embeddings, so running this overwrites them unless you pass
+another --output-dir.
+
+Usage (from the repository root):
+    python experiments/HM/mf_upgraded.py --data-path data/hm
+"""
+import argparse
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -230,7 +241,18 @@ def train_mf(
 # ------------------------------------------------------
 
 if __name__ == "__main__":
-    main_path = "easier_v2"
+    parser = argparse.ArgumentParser(description=__doc__,
+                                     formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("--data-path", default="data/hm",
+                        help="Folder with train_numeric.json and num_unique_items.txt")
+    parser.add_argument("--output-dir", default=None,
+                        help="Where the embeddings are written (default: --data-path)")
+    parser.add_argument("--epochs", type=int, default=250)
+    parser.add_argument("--device", default="cuda")
+    args = parser.parse_args()
+    main_path = args.data_path
+    out_dir = args.output_dir or args.data_path
+    os.makedirs(out_dir, exist_ok=True)
 
     with open(f"{main_path}/train_numeric.json") as f:
         interactions_int = json.load(f)
@@ -249,18 +271,19 @@ if __name__ == "__main__":
         weight_decay=1e-4,
         item_weight_decay=1e-2,
         norm_lambda=1e-3,
-        epochs=250,
+        epochs=args.epochs,
         batch_size=512,
         n_negatives=10,
         log_every=10,
+        device=args.device,
     )
 
     # Save item embeddings
     item_vectors = model.item_emb.weight.data.cpu().numpy()
-    np.save(f"{main_path}/item_embeddings_constrained.npy", item_vectors)
+    np.save(f"{out_dir}/item_embeddings_constrained.npy", item_vectors)
 
     # Save training history for analysis
-    with open(f"{main_path}/mf_training_history.json", "w") as f:
+    with open(f"{out_dir}/mf_training_history.json", "w") as f:
         json.dump(history, f, indent=2)
 
     # Print final embedding stats

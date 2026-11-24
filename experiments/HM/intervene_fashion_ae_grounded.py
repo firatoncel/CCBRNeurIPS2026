@@ -20,11 +20,11 @@ Input JSON structure (mode = category or color):
           {added_<mode>_idx, edited_summary, ...}, ...]}}
 
 Usage:
-    python intervene_fashion_ae_grounded.py --exp-dir results_hm/exp1 \
-        --intervention-type product_loi --interventions loi_grounded_category.json
+    python experiments/HM/intervene_fashion_ae_grounded.py --exp-dir results_hm/<run> \
+        --intervention-type product_loi --interventions data/hm/loi_grounded_category.json
 
-    python intervene_fashion_ae_grounded.py --exp-dir results_hm/exp1 \
-        --intervention-type color_loi --interventions loi_grounded_color.json
+    python experiments/HM/intervene_fashion_ae_grounded.py --exp-dir results_hm/<run> \
+        --intervention-type color_loi --interventions data/hm/loi_grounded_color.json
 """
 
 import os
@@ -310,7 +310,7 @@ def append_csv(rows, csv_path):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--exp-dir', type=str, required=True)
-    parser.add_argument('--data-path', type=str, default="easier_v2_vlm_llm")
+    parser.add_argument('--data-path', type=str, default="data/hm")
     parser.add_argument('--device', type=str, default="cuda:0")
     parser.add_argument('--seed', type=int, default=42)
 
@@ -318,8 +318,8 @@ if __name__ == "__main__":
                         choices=["product_loo", "product_loi", "color_loo", "color_loi"])
     parser.add_argument("--interventions", type=str, required=True,
                         help="Path to LOO/LOI interventions JSON")
-    parser.add_argument("--item-color", type=str, default="easier_v2_vlm_llm/item_color.json")
-    parser.add_argument("--item-product", type=str, default="easier_v2_vlm_llm/item_to_product_type.json")
+    parser.add_argument("--item-color", type=str, default="data/hm/item_color.json")
+    parser.add_argument("--item-product", type=str, default="data/hm/item_to_product_type.json")
 
     args = parser.parse_args()
     set_seed(args.seed)

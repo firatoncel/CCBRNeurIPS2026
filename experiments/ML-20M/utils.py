@@ -131,7 +131,7 @@ def read_data(path):
 # ============================================================
 # Datasets
 # ============================================================
-class MSDDataset(Dataset):
+class ML20MDataset(Dataset):
     """Train dataset: x (interaction vector) + summary text."""
     def __init__(self, X_json, S_json, n_items):
         self.X = X_json
@@ -147,7 +147,7 @@ class MSDDataset(Dataset):
         return {"x": x, "summary": self.S[idx]}
 
 
-class MSDDatasetVal(Dataset):
+class ML20MDatasetVal(Dataset):
     """Val/Test dataset: x + y (held-out) + summary text."""
     def __init__(self, X_json, S_json, n_items, Y_json):
         self.X = X_json

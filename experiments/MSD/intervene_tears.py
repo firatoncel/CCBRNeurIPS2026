@@ -10,11 +10,11 @@ Top-k = 5, 10, 20, 50, using the same LOO/LOI JSON format as
 intervene_music_ae.py / intervene_music_vae.py.
 
 Usage:
-    python intervene_tears.py --exp-dir results_tears/exp1 \
-        --intervention-type loo --interventions leave_one_out_interventions.json
+    python experiments/MSD/intervene_tears.py --exp-dir results_tears/<run> \
+        --intervention-type loo --interventions data/msd/leave_one_out_interventions.json
 
-    python intervene_tears.py --exp-dir results_tears/exp1 \
-        --intervention-type loi --interventions leave_one_in_interventions.json
+    python experiments/MSD/intervene_tears.py --exp-dir results_tears/<run> \
+        --intervention-type loi --interventions data/msd/leave_one_in_interventions.json
 """
 
 import os
@@ -344,7 +344,7 @@ if __name__ == "__main__":
     parser.add_argument("--interventions", type=str, required=True,
                         help="Path to LOO/LOI interventions JSON")
     parser.add_argument("--tag-matrix", type=str,
-                        default="msd_corrected/tag_matrix.npy",
+                        default="data/msd/tag_matrix.npy",
                         help="Path to tag_matrix.npy (n_items x n_tags)")
 
     # Which checkpoints saved by main_tears.py to evaluate. Defaults to

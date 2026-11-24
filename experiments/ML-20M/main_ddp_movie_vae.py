@@ -7,7 +7,7 @@ For VAE/Macrid, smoothl1_coef * SmoothL1 between the mapped text vector and
 the raw (un-normalised) mu is added to the alignment loss.
 
 Usage:
-    torchrun --nproc_per_node=4 main_ddp_movie_vae.py --classifier-path ... [args]
+    torchrun --nproc_per_node=1 experiments/ML-20M/main_ddp_movie_vae.py --classifier-path results/<run>/best.pt [args]
 """
 
 import os
@@ -27,7 +27,7 @@ from tqdm import tqdm
 
 from model_ddp_vae import LatentAlignModel
 from utils import (
-    set_seed, read_data, MSDDataset, MSDDatasetVal,
+    set_seed, read_data, ML20MDataset, ML20MDatasetVal,
     collate_fn, collate_fn_val,
     recall_ndcg_multi_k_full, hellinger_loss, infonce_loss,
 )
@@ -221,10 +221,11 @@ def run_eval(model, loader, device, tracker_joint, tracker_text, tracker_colab, 
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument("--data-path", type=str, default="ml-20m")
-parser.add_argument("--classifier-path", type=str, required=True)
-parser.add_argument("--encoder-path", type=str, default="autoencoders_ml20m/enc_edlae_lowrank.pt")
-parser.add_argument("--decoder-path", type=str, default="autoencoders_ml20m/dec_edlae_lowrank.pt")
+parser.add_argument("--data-path", type=str, default="data/ml-20m")
+parser.add_argument("--classifier-path", type=str, required=True,
+                    help="Stage-1 checkpoint (best.pt from main_first_stage.py)")
+parser.add_argument("--encoder-path", type=str, default="checkpoints/ml20m/enc_edlae_lowrank.pt")
+parser.add_argument("--decoder-path", type=str, default="checkpoints/ml20m/dec_edlae_lowrank.pt")
 parser.add_argument("--logdir", type=str, default="results_movie")
 
 parser.add_argument("--batch-size", type=int, default=64, help="Per-GPU batch size")
@@ -288,18 +289,18 @@ def main():
     # --- Data ---
     data = read_data(config.data_path)
 
-    dataset_tr = MSDDataset(data["X_tr"], data["S_tr"], data["n_items"])
+    dataset_tr = ML20MDataset(data["X_tr"], data["S_tr"], data["n_items"])
     train_sampler = DistributedSampler(dataset_tr, num_replicas=world_size,
                                         rank=dist.get_rank(), shuffle=True)
     loader_tr = DataLoader(dataset_tr, batch_size=config.batch_size, sampler=train_sampler,
                            num_workers=config.num_workers, collate_fn=collate_fn,
                            pin_memory=True, drop_last=True)
 
-    dataset_val = MSDDatasetVal(data["X_val"], data["S_val"], data["n_items"], data["Y_val"])
+    dataset_val = ML20MDatasetVal(data["X_val"], data["S_val"], data["n_items"], data["Y_val"])
     loader_val = DataLoader(dataset_val, batch_size=100, shuffle=False,
                             num_workers=config.num_workers, collate_fn=collate_fn_val)
 
-    dataset_test = MSDDatasetVal(data["X_test"], data["S_test"], data["n_items"], data["Y_test"])
+    dataset_test = ML20MDatasetVal(data["X_test"], data["S_test"], data["n_items"], data["Y_test"])
     loader_test = DataLoader(dataset_test, batch_size=100, shuffle=False,
                              num_workers=config.num_workers, collate_fn=collate_fn_val)
 

@@ -21,11 +21,11 @@ Top-k = 5, 10, 20, 50, using the same LOO/LOI JSON format as
 intervene_fashion_ae.py / intervene_fashion_vae.py.
 
 Usage:
-    python intervene_fashion_tears.py --exp-dir results_tears/exp1 \
-        --intervention-type product_loo --interventions loo_category.json
+    python experiments/HM/intervene_fashion_tears.py --exp-dir results_tears/<run> \
+        --intervention-type product_loo --interventions data/hm/loo_category.json
 
-    python intervene_fashion_tears.py --exp-dir results_tears/exp1 \
-        --intervention-type color_loi --interventions loi_color.json
+    python experiments/HM/intervene_fashion_tears.py --exp-dir results_tears/<run> \
+        --intervention-type color_loi --interventions data/hm/loi_color.json
 """
 
 import os
@@ -388,10 +388,10 @@ if __name__ == "__main__":
     parser.add_argument("--interventions", type=str, required=True,
                         help="Path to LOO/LOI interventions JSON")
     parser.add_argument("--item-color", type=str,
-                        default="easier_v2_vlm_llm/item_color.json",
+                        default="data/hm/item_color.json",
                         help="JSON: {item_id: color_name}")
     parser.add_argument("--item-product", type=str,
-                        default="easier_v2_vlm_llm/item_to_product_type.json",
+                        default="data/hm/item_to_product_type.json",
                         help="JSON: {item_id: product_type_name}")
 
     # Which checkpoints saved by main_tears.py to evaluate. Defaults to

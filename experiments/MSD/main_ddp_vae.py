@@ -7,7 +7,7 @@ For VAE/Macrid, smoothl1_coef * SmoothL1 between the mapped text vector and the
 raw (un-normalised) mu, scaled by the alignment weight, is added to the alignment loss.
 
 Usage:
-    torchrun --nproc_per_node=4 main_ddp_vae.py --classifier-path ... [args]
+    torchrun --nproc_per_node=1 experiments/MSD/main_ddp_vae.py --classifier-path results/<run>/best.pt [args]
 """
 
 import os
@@ -221,10 +221,11 @@ def run_eval(model, loader, device, tracker_joint, tracker_text, tracker_colab, 
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument("--data-path", type=str, default="msd_corrected")
-parser.add_argument("--classifier-path", type=str, required=True)
-parser.add_argument("--encoder-path", type=str, default="autoencoders_msd/enc_edlae_lowrank.pt")
-parser.add_argument("--decoder-path", type=str, default="autoencoders_msd/dec_edlae_lowrank.pt")
+parser.add_argument("--data-path", type=str, default="data/msd")
+parser.add_argument("--classifier-path", type=str, required=True,
+                    help="Stage-1 checkpoint (best.pt from main_first_stage.py)")
+parser.add_argument("--encoder-path", type=str, default="checkpoints/msd/enc_edlae_lowrank.pt")
+parser.add_argument("--decoder-path", type=str, default="checkpoints/msd/dec_edlae_lowrank.pt")
 parser.add_argument("--logdir", type=str, default="results_music")
 
 parser.add_argument("--batch-size", type=int, default=64, help="Per-GPU batch size")

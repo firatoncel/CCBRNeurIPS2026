@@ -15,7 +15,7 @@ warnings.filterwarnings("ignore")
 
 from utils import (
     hellinger_loss, set_seed, read_data,
-    MSDDataset, MSDDatasetVal, collate_fn, collate_fn_val
+    ML20MDataset, ML20MDatasetVal, collate_fn, collate_fn_val
 )
 from model import Classifier
 
@@ -66,10 +66,10 @@ parser.add_argument('--lora-alpha', type=int, default=16)
 parser.add_argument('--lr-text', type=float, default=1e-6)
 parser.add_argument('--lr-W', type=float, default=3e-4)
 parser.add_argument('--dropout', type=float, default=0.2)
-parser.add_argument('--data-path', type=str, default="ml-20m")
+parser.add_argument('--data-path', type=str, default="data/ml-20m")
 parser.add_argument('--model-name', type=str, default="BAAI/bge-m3")
-parser.add_argument('--tag-matrix-path', type=str, default="ml-20m/tag_matrix.npy")
-parser.add_argument('--tag2idx-path', type=str, default="ml-20m/tag2idx.json")
+parser.add_argument('--tag-matrix-path', type=str, default="data/ml-20m/tag_matrix.npy")
+parser.add_argument('--tag2idx-path', type=str, default="data/ml-20m/tag2idx.json")
 parser.add_argument('--device', type=str, default="cuda:0")
 parser.add_argument('--embeddings-name', type=str, default="constrained")
 parser.add_argument('--logdir', type=str, default="results")
@@ -86,15 +86,15 @@ device = config.device
 # ============================================================
 data = read_data(config.data_path)
 
-dataset_tr = MSDDataset(data['X_tr'], data['S_tr'], data['n_items'])
+dataset_tr = ML20MDataset(data['X_tr'], data['S_tr'], data['n_items'])
 loader_tr = DataLoader(dataset_tr, batch_size=config.batch_size, shuffle=True,
                        num_workers=config.num_workers, collate_fn=collate_fn)
 
-dataset_val = MSDDatasetVal(data['X_val'], data['S_val'], data['n_items'], data['Y_val'])
+dataset_val = ML20MDatasetVal(data['X_val'], data['S_val'], data['n_items'], data['Y_val'])
 loader_val = DataLoader(dataset_val, batch_size=250, shuffle=False,
                         num_workers=config.num_workers, collate_fn=collate_fn_val)
 
-dataset_test = MSDDatasetVal(data['X_test'], data['S_test'], data['n_items'], data['Y_test'])
+dataset_test = ML20MDatasetVal(data['X_test'], data['S_test'], data['n_items'], data['Y_test'])
 loader_test = DataLoader(dataset_test, batch_size=250, shuffle=False,
                          num_workers=config.num_workers, collate_fn=collate_fn_val)
 
