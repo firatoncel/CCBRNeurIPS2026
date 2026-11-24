@@ -10,14 +10,14 @@ Fırat Öncel · Jihoon Jeong · Emiliano Penaloza · Mirco Ravanelli · Laurent
 
 [![arXiv](https://img.shields.io/badge/arXiv-2607.20938-b31b1b.svg)](https://arxiv.org/pdf/2607.20938)
 [![Project page](https://img.shields.io/badge/Project-Page-2b5ce6.svg)](https://firatoncel.github.io/ccbr/)
-[![Teaser video](https://img.shields.io/badge/Teaser-Video-6f42c1.svg)](assets/CCBR-NeurIPS2026-teaser.mp4?raw=true)
+[![Teaser video](https://img.shields.io/badge/Teaser-Video-6f42c1.svg)](https://firatoncel.github.io/ccbr/Demo.mp4)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 <img src="assets/CCBR-NeurIPS2026-demo.gif" width="640" alt="CCBR demo: editing the user's text profile changes the recommendations">
 
 **Your profile is text you can read. Edit it, and the recommendations follow.**
 
-<sub><a href="assets/CCBR-NeurIPS2026-teaser.mp4?raw=true">Download the full teaser video</a> (1:32, 7 MB, with sound)</sub>
+<sub><a href="https://raw.githubusercontent.com/firatoncel/CCBRNeurIPS2026/master/assets/CCBR-NeurIPS2026-teaser.mp4">Download the full teaser video</a> (1:32, 7 MB, with sound)</sub>
 
 </div>
 
