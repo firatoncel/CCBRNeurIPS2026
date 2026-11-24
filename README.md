@@ -43,6 +43,10 @@ pip install torch numpy tqdm optuna
 pip install transformers sentence-transformers peft scipy matplotlib
 ```
 
+Regenerating the item descriptions and user summaries (`summary_generation/`) also
+needs `vllm` and `pillow`, and `flash-attn` for the VideoLLaMA3 script. This is
+optional: the data already includes them.
+
 ## Data
 
 The preprocessed splits and the LLM-edited summaries used in the controllability
@@ -88,7 +92,10 @@ python autoencoder_training/autoencoders.py --dataset msd --model-type edlae_low
 
 Weights are saved to `checkpoints/<dataset>/`. `ease` and `edlae_full` save the full
 item × item matrix, which `experiments/<dataset>/factorize.py` factorises by SVD
-before CCBR training. `--help` lists all options.
+before CCBR training. `--help` lists all options. Backbone latents are 1024-d,
+except on MSD, where EASE, EDLAE (FR/LR) and Linear-DAE use 4096
+(`factorize.py --rank 4096`; `--latent-dim 4096` or `--tune` for `edlae_lowrank`
+and `linear`).
 
 ```bash
 python autoencoder_training/autoencoders.py --dataset hm --model-type ease
@@ -121,6 +128,14 @@ torchrun --nproc_per_node=1 experiments/HM/main_ddp_ae.py \
 
 # Controllability: edit the summaries and measure the change in the top-k
 python experiments/HM/intervene_fashion_ae.py --exp-dir results_hm/<run> \
+    --intervention-type product_loo --interventions data/hm/loo_category.json
+
+# Stage 2 and controllability with a Multi-VAE / MacridVAE backbone: the _vae scripts
+torchrun --nproc_per_node=1 experiments/HM/main_ddp_vae.py \
+    --base-path results/<run>/best_joint.pt \
+    --encoder-path checkpoints/hm/enc_mult_vae.pt \
+    --decoder-path checkpoints/hm/dec_mult_vae.pt
+python experiments/HM/intervene_fashion_vae.py --exp-dir results_hm/<run> \
     --intervention-type product_loo --interventions data/hm/loo_category.json
 
 # TEARS baseline (Multi-VAE / MacridVAE backbones) -> results_tears/<run>/

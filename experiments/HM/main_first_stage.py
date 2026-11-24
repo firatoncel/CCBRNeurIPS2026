@@ -57,7 +57,7 @@ def eval_distribution_metrics(pred_logits, target_counts):
 parser = argparse.ArgumentParser()
 parser.add_argument('--batch-size', type=int, default=64)
 parser.add_argument('--num-workers', type=int, default=6)
-parser.add_argument('--epochs', type=int, default=30)
+parser.add_argument('--epochs', type=int, default=100)
 parser.add_argument('--seed', type=int, default=42)
 parser.add_argument('--latent-dim', type=int, default=1024)
 parser.add_argument('--tau', type=float, default=1)
