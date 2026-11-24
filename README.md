@@ -1,15 +1,28 @@
-# CCBRNeurIPS2026
+<div align="center">
 
-Code for *Controllable and Content-Based Recommendations* (CCBR, NeurIPS 2026) on
-H&M, MovieLens-20M and the Million Song Dataset (MSD).
+# Controllable and Content-Based Recommendations
 
-**Paper:** [arXiv:2607.20938](https://arxiv.org/pdf/2607.20938)
+**CCBR** · NeurIPS 2026
 
-<p align="center">
-  <img src="assets/CCBR-NeurIPS2026-demo.gif" width="640" alt="CCBR demo: editing the user's text profile changes the recommendations">
-  <br>
-  <a href="assets/CCBR-NeurIPS2026-teaser.mp4?raw=true">Download the full teaser video</a> (1:32, 7 MB, with sound)
-</p>
+Fırat Öncel · Jihoon Jeong · Emiliano Penaloza · Mirco Ravanelli · Laurent Charlin · Cem Subakan
+
+<sub>Concordia University · Université Laval · Université de Montréal · HEC Montréal · Mila</sub>
+
+[![arXiv](https://img.shields.io/badge/arXiv-2607.20938-b31b1b.svg)](https://arxiv.org/pdf/2607.20938)
+[![Project page](https://img.shields.io/badge/Project-Page-2b5ce6.svg)](https://firatoncel.github.io/ccbr/)
+[![Teaser video](https://img.shields.io/badge/Teaser-Video-6f42c1.svg)](assets/CCBR-NeurIPS2026-teaser.mp4?raw=true)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+<img src="assets/CCBR-NeurIPS2026-demo.gif" width="640" alt="CCBR demo: editing the user's text profile changes the recommendations">
+
+**Your profile is text you can read. Edit it, and the recommendations follow.**
+
+<sub><a href="assets/CCBR-NeurIPS2026-teaser.mp4?raw=true">Download the full teaser video</a> (1:32, 7 MB, with sound)</sub>
+
+</div>
+
+This repository contains the code for CCBR on H&M, MovieLens-20M and the Million Song
+Dataset (MSD).
 
 | Folder | Contents |
 |---|---|
