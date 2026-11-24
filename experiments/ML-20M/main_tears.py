@@ -6,7 +6,7 @@ and our text encoder. Loss is 3-branch multinomial reconstruction + KL +
 Bures-Wasserstein OT alignment.
 
 Usage:
-    torchrun --nproc_per_node=4 experiments/ML-20M/main_tears.py \
+    torchrun --nproc_per_node=1 experiments/ML-20M/main_tears.py \
         --data-path data/ml-20m \
         --encoder-path checkpoints/ml20m/enc_mult_vae.pt \
         --decoder-path checkpoints/ml20m/dec_mult_vae.pt \

@@ -3,7 +3,7 @@ main_ddp_ae.py — Multi-GPU DDP training for LatentAlignModel (fashion / H&M).
 Backbones: EASE, EDLAE (FR/LR), Linear-DAE and Multi-DAE (checkpoint name ending in _deep.pt).
 
 Usage:
-    torchrun --nproc_per_node=4 experiments/HM/main_ddp_ae.py --base-path results/<run>/best_joint.pt [args]
+    torchrun --nproc_per_node=1 experiments/HM/main_ddp_ae.py --base-path results/<run>/best_joint.pt [args]
 """
 
 import os

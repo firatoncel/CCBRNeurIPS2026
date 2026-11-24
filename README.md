@@ -100,14 +100,21 @@ python experiments/HM/factorize.py --checkpoint-dir checkpoints/hm --models ease
 
 All commands run from the repository root, and every default path points to
 `data/<dataset>/` and `checkpoints/<dataset>/`. Stage 1 runs on one GPU; stage 2
-and TEARS use `torchrun` (the examples use 4 GPUs). The H&M pipeline:
+and TEARS are launched with `torchrun`.
+
+**GPUs.** Our H100 (80 GB) experiments ran each stage on a single GPU
+(`--nproc_per_node=1`), as in the examples below. We used several GPUs
+(`--nproc_per_node` > 1) only for the experiments on L40S GPUs. `--batch-size` is
+per GPU, so the total batch size grows with the number of GPUs.
+
+The H&M pipeline:
 
 ```bash
 # Stage 1: fine-tune the text encoder on the summaries -> results/<run>/best_joint.pt
 python experiments/HM/main_first_stage.py
 
 # Stage 2: align the text encoder with a backbone -> results_hm/<run>/
-torchrun --nproc_per_node=4 experiments/HM/main_ddp_ae.py \
+torchrun --nproc_per_node=1 experiments/HM/main_ddp_ae.py \
     --base-path results/<run>/best_joint.pt \
     --encoder-path checkpoints/hm/enc_edlae_lowrank.pt \
     --decoder-path checkpoints/hm/dec_edlae_lowrank.pt
@@ -117,7 +124,7 @@ python experiments/HM/intervene_fashion_ae.py --exp-dir results_hm/<run> \
     --intervention-type product_loo --interventions data/hm/loo_category.json
 
 # TEARS baseline (Multi-VAE / MacridVAE backbones) -> results_tears/<run>/
-torchrun --nproc_per_node=4 experiments/HM/main_tears.py \
+torchrun --nproc_per_node=1 experiments/HM/main_tears.py \
     --encoder-path checkpoints/hm/enc_mult_vae.pt --decoder-path checkpoints/hm/dec_mult_vae.pt
 python experiments/HM/intervene_fashion_tears.py --exp-dir results_tears/<run> \
     --intervention-type product_loo --interventions data/hm/loo_category.json

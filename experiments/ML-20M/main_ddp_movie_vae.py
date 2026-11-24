@@ -7,7 +7,7 @@ For VAE/Macrid, smoothl1_coef * SmoothL1 between the mapped text vector and
 the raw (un-normalised) mu is added to the alignment loss.
 
 Usage:
-    torchrun --nproc_per_node=4 experiments/ML-20M/main_ddp_movie_vae.py --classifier-path results/<run>/best.pt [args]
+    torchrun --nproc_per_node=1 experiments/ML-20M/main_ddp_movie_vae.py --classifier-path results/<run>/best.pt [args]
 """
 
 import os
